@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1480666450 source:c:\users\ken\documents\github\algo_project_km_vl\main.c
+	<stdio.h>
+	<stdlib.h>
+

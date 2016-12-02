@@ -9,6 +9,7 @@ double lattitude;
 double longitude;
 }point;
 
+/*
 void openAndRead(char fileName)
 {
       FILE* myFile = NULL
@@ -26,10 +27,27 @@ void openAndRead(char fileName)
 
       }
 }
+*/
 
+static void display_file(const char *file_name)
+{
+    FILE *f = fopen(file_name, "r");      // open the specified file
+    if (f != NULL)
+    {
+        int c;
+
+        while ((c = fgetc(f)) != EOF)     // read character from file until EOF
+        {
+            putchar(c);                   // output character
+        }
+        fclose(f);
+    }
+}
 
 int main()
 {
+    display_file("Cites.csv");
+
     printf("Hello world!\n");
     return 0;
 }
