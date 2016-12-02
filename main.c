@@ -25,10 +25,10 @@ must contain the edge "PARIS —> SAINT GEORGES"
 #define MAX_SIZE 10000
 #define degreesToRadians(Degrees) (Degrees * M_PI / 180.0)
 
+using namespace std;
 
 // A structure to represent the Graph Nodes
 typedef struct Node{
-
 char title;
 double latitude;
 double longitude;
@@ -39,10 +39,8 @@ int numberOfTheCity;
 // A structure to represent the Graph Edges
 typedef struct Edge{
     double weight;
-    char city1;
-    char city2;
-    int number_city1;
-    int number_city2;
+    Node node1;
+    Node node2;
 }Edge;
 
 typedef struct Graph{
@@ -65,7 +63,7 @@ Formula
 
 */
 
-void createWeight(Node* node1, Node* node2, Edge* edge)
+void createWeight(Node node1, Node node2, Edge edge)
 {
 
 
@@ -106,7 +104,7 @@ Node* void displayFile(const char *file_name)
             printf("%s",c);
            // printf("sizeof(intArr)=%u", sizeof(c)):
 
-            scanf(c, "%s[^;]|%lf[^;]|%lf",title,latitude,longitude);
+            sscanf(c, "%s[^;]|%lf[^;]|%lf",title,latitude,longitude);
             tabPoint[i]->title=title;
             tabPoint[i]->latitude=latitude;
             tabPoint[i]->longitude=longitude;
@@ -119,21 +117,124 @@ Node* void displayFile(const char *file_name)
     return tabPoint;
 }
 
-//function to add to the matrix the weight between each city
-//false, to review
-double** createAndMatrixNode(Graph graph, double** matrix){
-    while(graph->edge != NULL){
-        matrix[graph->edge->number_city1][graph->edge->number_city2]=graph->edge->weight;
-    }
-    return matrix;
+
+
+// A utility to create an edge for two nodes into the graph
+Edge createEdge(Node node1, Node node2, double weight, Graph graph){
+    Edge edge;
+    edge->weight=weight;
+    edge->node1=node1;
+    edge->node2=node2;
+    return edge;
 }
 
+// A utility to create the graph
+Graph createGraph(Edge edge){
+    Graph graph;
+    graph->edge=edge:
+    return graph;
+}
+
+// A utility to add an edge to the graph
+Graph addEdge(Edge edge, Graph graph){
+    return graph;
+}
+
+// A function to display the graph in the console
+void displayGraph(Graph graph, Node* nodeList){
+    int i = 0;
+    int n = Length(nodeList);
+    double **matrix = (float **) malloc(sizeof (double *) * n);
+    for (i = 0; i < n; ++i) {
+         matrix[i] = (double *) malloc(sizeof (double) * n);
+}
+
+
+    while(Graph->edge != NULL){
+        printf("weight of the edge is: %s from: %s to: %s",
+        matrix[graph->edge->node1->numberOfTheCity][graph->edge->node1->numberOfTheCity]=graph->edge->weight;
+    }
+               for(i=0; i<n; ++i){
+                   for(
+               }
+}
+
+int Length(Node* node){
+    int l = sizeof(node)/sizeof(node[0]);
+    return l;
+}
+
+
+// A function to create every edges from the .csv file
+Graph EdgeandGraph(Node* nodeList){
+    Graph graph;
+    int i=0;
+    int j=0;
+
+    Edge edge;
+    while(nodeList != NULL){
+        for(i=0; i<Length(nodeList); ++i){
+            for(j=0; j<Length(nodeList); ++i){
+                edge=createEdge(nodeList[i], nodeList[j], createWeight(nodeList[i], nodeList[j]));
+            }
+        }
+
+       //point 1->2 in the graph
+       //point 1->3 in the graph
+       //point 2->3 ......
+       //.. pour tout
+
+        }
+
+
+
+    }
+ }
+
+// A function that chooses the longest path
+void longestPath(){
+
+}
+
+
+bool vis [CITY] [1 << CITY]; // is_visited
+int val [CITY] [1 << CITY]; // cost at particular state
+int weight [CITY] [CITY]; // given weight
+
+
+// A function that chooses the shortest path, resolving TSP
+int TSP (int at, int mask)
+{
+    if ( mask ==  (1 << CITY) - 1 ) { // all visited
+        vis [at] [mask] = true;
+        return val [at] [mask];
+    }
+
+    if ( vis [at] [mask] ) return val [at] [mask];
+    vis [at] [mask] = true;
+
+    int ans = inf;
+    int cost;
+
+    for ( int i = 0; i < CITY; i++ ) {
+        if ( weight [at] [i] != -1 && (mask & (1 << i)) == 0 ) {
+            cost = dp (i, mask | (1 << i)) + weight [at] [i];
+            if ( ans > cost ) ans = cost;
+        }
+    }
+
+    return val [at] [mask] = ans;
+}
 
 
 // Main function
 int main()
 {
     displayFile("Cites.csv");
+
+    memset (vis, false, sizeof (vis));
+    memset (weight, -1, sizeof (weight));
+    printf ("Cost : %d\n", dp (0, 1));
 
 
     return 0;
