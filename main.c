@@ -2,7 +2,13 @@
 #include <stdlib.h>
 #define TAILLE_MAX 10000
 
+typedef struct point{
 
+char title;
+double lattitude;
+double longitude;
+}point
+;
 
 void openAndRead(char fileName)
 {
