@@ -7,8 +7,7 @@ typedef struct point{
 char title;
 double lattitude;
 double longitude;
-}point
-;
+}point;
 
 void openAndRead(char fileName)
 {
@@ -19,8 +18,11 @@ void openAndRead(char fileName)
       if(myFile != NULL){
             while(fgets(chaine, TAILLE_MAX, fichier) != NULL)
             {
+                while()
 
             }
+
+            fclose(myFile);
 
       }
 }
