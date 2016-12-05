@@ -23,7 +23,9 @@ must contain the edge "PARIS —> SAINT GEORGES"
 #include <stdlib.h>
 #include <math.h>
 #define MAX_SIZE 10000
+#define M_PI 6400
 #define degreesToRadians(Degrees) (Degrees * M_PI / 180.0)
+
 
 //using namespace std;
 
@@ -97,8 +99,9 @@ Node* displayFile(const char *file_name)
 	Node* tabPoint[MAX_SIZE];
 	char c[1000];
 	int i = 0;
-	char title;
-	double latitude, longitude;
+	char title = "";
+	double latitude = 0;
+	double longitude = 0;
 	if (f != NULL)
 	{
 
@@ -109,14 +112,14 @@ Node* displayFile(const char *file_name)
 			printf("%s", c);
 			// printf("sizeof(intArr)=%u", sizeof(c)):
 
-			sscanf(c, "%s[^;]|%lf[^;]|%lf", title, latitude, longitude);
+			sscanf_s(c, "%s[^;]|%lf[^;]|%lf", title, latitude, longitude);
 			tabPoint[i]->title = title;
 			tabPoint[i]->latitude = latitude;
 			tabPoint[i]->longitude = longitude;
 			tabPoint[i]->numberOfTheCity;
 			++i;
 
-			}
+		}
 	}
 	fclose(f);
 	return tabPoint;
@@ -127,7 +130,7 @@ Node* displayFile(const char *file_name)
 // A utility to create the graph
 Graph createGraph(Edge edge) {
 	Graph graph;
-	//graph.edge = edge;
+//	graph.edge += edge;
 	return graph;
 }
 
@@ -160,7 +163,7 @@ void displayGraph(Graph graph, Node* nodeList) {
 
 int Length(Node* node) {
 	int l = sizeof(node) / sizeof(node[0]);
-		return l;
+	return l;
 }
 
 
@@ -174,7 +177,7 @@ Graph EdgeandGraph(Node* nodeList) {
 	while (nodeList != NULL) {
 		for (i = 0; i<Length(nodeList); ++i) {
 			for (j = 0; j<Length(nodeList); ++i) {
-				edge = createEdge(nodeList[i], nodeList[j], createWeight(nodeList[i], nodeList[j], edge));
+				edge = createEdge(nodeList[i], nodeList[j], createWeight(nodeList[i], nodeList[j]), graph);
 			}
 		}
 
@@ -188,54 +191,58 @@ Graph EdgeandGraph(Node* nodeList) {
 
 
 }
- }
-
- // A function that chooses the longest path
- void longestPath() {
-
- }
 
 
- bool vis[CITY][1 << CITY]; // is_visited
- int val[CITY][1 << CITY]; // cost at particular state
- int weight[CITY][CITY]; // given weight
+// A function that chooses the longest path
+void longestPath() {
+
+}
+
+/*
+bool vis[CITY][1 << CITY]; // is_visited
+int val[CITY][1 << CITY]; // cost at particular state
+int weight[CITY][CITY]; // given weight
+*/
+
+// A function that chooses the shortest path, resolving TSP
+int TSP(int at, int mask, int n)
+{
+
+	int vis[1000][1000]; // is_visited
+	int val[1000][1000]; // cost at particular state
+	int weight[1000][1000]; // given weight
+	if (mask == (1 << n) - 1) { // all visited
+		vis[at][mask] = 1;
+		return val[at][mask];
+	}
+
+	if (vis[at][mask]) return val[at][mask];
+	vis[at][mask] = 1;//true
+
+	int ans = -1;//inf
+	int cost;
+	int i = 0;
+	for (i = 0; i < n; i++) {
+		if (weight[at][i] != -1 && (mask & (1 << i)) == 0) {
+			cost = dp(i, mask | (1 << i)) + weight[at][i];
+			if (ans > cost) ans = cost;
+		}
+	}
+
+	return val[at][mask] = ans;
+}
 
 
-						 // A function that chooses the shortest path, resolving TSP
- int TSP(int at, int mask)
- {
-	 if (mask == (1 << CITY) - 1) { // all visited
-		 vis[at][mask] = true;
-		 return val[at][mask];
-	 }
+// Main function
+int main()
+{
+	displayFile("Cites.csv");
+	/*
+	memset(vis, 0, sizeof(vis));
+	memset(weight, -1, sizeof(weight));
+	printf("Cost : %d\n", dp(0, 1));
+	*/
 
-	 if (vis[at][mask]) return val[at][mask];
-	 vis[at][mask] = true;
-
-	 int ans = inf;
-	 int cost;
-
-	 for (int i = 0; i < CITY; i++) {
-		 if (weight[at][i] != -1 && (mask & (1 << i)) == 0) {
-			 cost = dp(i, mask | (1 << i)) + weight[at][i];
-			 if (ans > cost) ans = cost;
-		 }
-	 }
-
-	 return val[at][mask] = ans;
- }
-
-
- // Main function
- int main()
- {
-	 displayFile("Cites.csv");
-
-	 memset(vis, false, sizeof(vis));
-	 memset(weight, -1, sizeof(weight));
-	 printf("Cost : %d\n", dp(0, 1));
-
-
-	 return 0;
- }
+	return 0;
+}
 
