@@ -46,7 +46,8 @@ typedef struct Edge {
 }Edge;
 
 typedef struct Graph {
-	Edge* edge;
+	Edge edge;
+	Edge* link;
 }Graph;
 
 
