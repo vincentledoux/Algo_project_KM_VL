@@ -35,6 +35,7 @@ typedef struct Node {
 	double latitude;
 	double longitude;
 	int numberOfTheCity;
+	int visited;
 }Node;
 
 
@@ -45,9 +46,11 @@ typedef struct Edge {
 	Node node2;
 }Edge;
 
+
 typedef struct Graph {
-	Edge edge;
-	Edge* link;
+    Edge* before;
+    Edge current;
+	Edge* edgeList;
 }Graph;
 
 
@@ -94,10 +97,10 @@ Edge createEdge(Node node1, Node node2, double weight, Graph graph) {
 
 
 // A function to open and read the csv file
-Node* displayFile(const char *file_name)
+Node[1000] displayFile(const char *file_name)
 {
 	FILE *f = fopen(file_name, "r");  // open the specified
-	Node* tabPoint[MAX_SIZE];
+	Node tabPoint[MAX_SIZE];
 	char c[1000];
 	int i = 0;
 	char title = "";
@@ -129,15 +132,35 @@ Node* displayFile(const char *file_name)
 
 
 // A utility to create the graph
-Graph createGraph(Edge edge) {
+Graph createGraph(int n) {
 	Graph graph;
-//	graph.edge += edge;
-	return graph;
+	graph.edgeList=malloc(sizeof(edge)*n);
+    return graph;
 }
 
+
 // A utility to add an edge to the graph
-Graph addEdge(Edge edge, Graph graph) {
+Graph addEdge(Node* nodeList, Graph graph,int n) {
 	return graph;
+	int i=0
+	While(nodeList!=NULL)
+	{
+	    if(graph.current==NULL)
+         {
+             graph.edgeList=graph.current;
+             graph.current=nodeList[i]
+
+         }
+        else{
+	    while(graph.edgeList!=null)
+        {
+            graph.current=graph.edgeList;
+        }
+        graph.current=nodeList[i];
+      }
+         ++i;
+	}
+
 }
 
 // A function to display the graph in the console
