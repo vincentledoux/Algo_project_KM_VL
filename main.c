@@ -22,12 +22,15 @@ must contain the edge "PARIS —> SAINT GEORGES"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#define MAX_SIZE 10000
+#define _POSIX_C_SOURCE
+#define MAX_SIZE 60
 #define M_PI 6400
 #define degreesToRadians(Degrees) (Degrees * M_PI / 180.0)
 
 
+
 //using namespace std;
+
 
 // A structure to represent the Graph Nodes
 typedef struct Node {
@@ -47,10 +50,13 @@ typedef struct Edge {
 }Edge;
 
 
+
 typedef struct Graph {
-    Edge* before;
-    Edge current;
-	Edge* edgeList;
+	/*Edge* before;
+	Edge current;
+	Edge* edgeList;*/
+
+	Edge matrice[MAX_SIZE][MAX_SIZE];
 }Graph;
 
 
@@ -97,10 +103,10 @@ Edge createEdge(Node node1, Node node2, double weight, Graph graph) {
 
 
 // A function to open and read the csv file
-Node[1000] displayFile(const char *file_name)
+Node* displayFile(const char *file_name)
 {
 	FILE *f = fopen(file_name, "r");  // open the specified
-	Node tabPoint[MAX_SIZE];
+	Node* tabPoint[MAX_SIZE];
 	char c[1000];
 	int i = 0;
 	char title = "";
@@ -116,7 +122,7 @@ Node[1000] displayFile(const char *file_name)
 			printf("%s", c);
 			// printf("sizeof(intArr)=%u", sizeof(c)):
 
-			sscanf_s(c, "%s[^;]|%lf[^;]|%lf", title, latitude, longitude);
+			sscanf(c, "%s[^;]|%lf[^;]|%lf", title, latitude, longitude);
 			tabPoint[i]->title = title;
 			tabPoint[i]->latitude = latitude;
 			tabPoint[i]->longitude = longitude;
@@ -132,57 +138,77 @@ Node[1000] displayFile(const char *file_name)
 
 
 // A utility to create the graph
+/*
 Graph createGraph(int n) {
 	Graph graph;
-	graph.edgeList=malloc(sizeof(edge)*n);
-    return graph;
-}
+	graph.edgeList = malloc(sizeof(Edge)*n);
+	return graph;
+}*/
 
 
 // A utility to add an edge to the graph
-Graph addEdge(Node* nodeList, Graph graph,int n) {
-	return graph;
-	int i=0
-	While(nodeList!=NULL)
-	{
-	    if(graph.current==NULL)
-         {
-             graph.edgeList=graph.current;
-             graph.current=nodeList[i]
 
-         }
-        else{
-	    while(graph.edgeList!=null)
-        {
-            graph.current=graph.edgeList;
-        }
-        graph.current=nodeList[i];
-      }
-         ++i;
+Graph addEdge(Node* nodeList, Graph graph) {
+
+	int i = 0;
+	int j = 0;
+	for (i = 0;i < MAX_SIZE; i++)
+	{
+		for (j = 0; j < MAX_SIZE; j++)
+		{
+
+		}
+
+		/*
+		if (graph.edgeList == NULL)
+		{
+
+			graph.edgeList[0] = graph.current;
+			graph.current.node1 = nodeList[i];
+			graph.current.node2 = nodeList[i + 1];
+			graph.current.weight = createWeight(nodeList[i], nodeList[i + 1]);
+
+
+		}
+		else {
+			while (graph.edgeList != NULL)
+			{
+				//aller au suivant
+
+			}
+			graph.current.node1 = nodeList[i];
+			graph.current.node2 = nodeList[i + 1];
+			graph.current.weight = createWeight(nodeList[i], nodeList[i + 1]);
+		}
+		++i;*/
+	}
+	return graph;
 	}
 
-}
+
+
+
 
 // A function to display the graph in the console
-void displayGraph(Graph graph, Node* nodeList) {
+void displayGraph(Graph graph) {
 	int i = 0;
-	int n = Length(nodeList);
-	double **matrix = (float **)malloc(sizeof(double *) * n);
-	for (i = 0; i < n; ++i) {
-		matrix[i] = (double *)malloc(sizeof(double) * n);
+	int j = 0;
+
+	//for in the matrix
+	for(i=0; i<MAX_SIZE; ++i)
+	{
+		for (j = 0;j < MAX_SIZE;j++)
+		{
+			printf(" %s", graph.matrice[i][j].weight);
+		}
+
+		printf("\n");
+
+
 	}
 
 
-	while (graph.edge != NULL) {
-		matrix[graph.edge->node1.numberOfTheCity][graph.edge->node1.numberOfTheCity] = graph.edge->weight;
-		printf("weight of the edge is: %s from: %s to: %s", matrix[graph.edge->node1.numberOfTheCity][graph.edge->node1.numberOfTheCity]);
 
-	}
-
-
-	for (i = 0; i<n; ++i) {
-		//for (i
-	}
 }
 
 int Length(Node* node) {
@@ -192,8 +218,8 @@ int Length(Node* node) {
 
 
 // A function to create every edges from the .csv file
-Graph EdgeandGraph(Node* nodeList) {
-	Graph graph;
+Graph EdgeandGraph(Node* nodeList, Graph x) {
+	Graph graph=x;
 	int i = 0;
 	int j = 0;
 
@@ -205,13 +231,10 @@ Graph EdgeandGraph(Node* nodeList) {
 			}
 		}
 
-		//point 1->2 in the graph
-		//point 1->3 in the graph
-		//point 2->3 ......
-		//.. pour tout
+
 
 	}
-
+	return graph;
 
 
 }
@@ -232,10 +255,11 @@ int weight[CITY][CITY]; // given weight
 int TSP(int at, int mask, int n)
 {
 
-	int vis[1000][1000]; // is_visited
-	int val[1000][1000]; // cost at particular state
-	int weight[1000][1000]; // given weight
-	if (mask == (1 << n) - 1) { // all visited
+	int vis[MAX_SIZE][MAX_SIZE]; // is_visited
+	int val[MAX_SIZE][MAX_SIZE]; // cost at particular state
+	int weight[MAX_SIZE][MAX_SIZE]; // given weight
+
+	if (mask = (1 << n) - 1) { // all visited
 		vis[at][mask] = 1;
 		return val[at][mask];
 	}
@@ -248,7 +272,7 @@ int TSP(int at, int mask, int n)
 	int i = 0;
 	for (i = 0; i < n; i++) {
 		if (weight[at][i] != -1 && (mask & (1 << i)) == 0) {
-			cost = dp(i, mask | (1 << i)) + weight[at][i];
+			cost = dp(i, mask | (1 << i)) + weight[at][i]; //dp?
 			if (ans > cost) ans = cost;
 		}
 	}
@@ -261,11 +285,13 @@ int TSP(int at, int mask, int n)
 int main()
 {
 	displayFile("Cites.csv");
-	/*
+	int vis[MAX_SIZE][MAX_SIZE]; // is_visited
+	int val[MAX_SIZE][MAX_SIZE]; // cost at particular state
+	int weight[MAX_SIZE][MAX_SIZE]; // given weight
 	memset(vis, 0, sizeof(vis));
 	memset(weight, -1, sizeof(weight));
 	printf("Cost : %d\n", dp(0, 1));
-	*/
+
 
 	return 0;
 }
