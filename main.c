@@ -136,7 +136,7 @@ ssize_t getdelim(char **linep, size_t *n, int delim, FILE *fp){
     return !i && ch == EOF ? -1 : i;
 }
 ssize_t getline(char **linep, size_t *n, FILE *fp){
-    return getdelim(linep, n, "\n", fp);
+    return getdelim(linep, n, '\n', fp);
 }
 
 // A function to open and read the csv file
@@ -144,12 +144,12 @@ Node* displayFile(const char *file_name)
 {
     size_t *thesize = 0;
 	FILE *f = fopen(file_name, "r+");  // open the specified
-	Node tabPoint[MAX_SIZE];
+	Node* tabPoint[MAX_SIZE];
 	char *c;
 	int i = 0;
 	char* titles = "";
-	double latitude = 0;
-	double longitude = 0;
+	double latitudes = 0;
+	double longitudes = 0;
 	if (f != NULL)
 	{
 
@@ -157,11 +157,14 @@ Node* displayFile(const char *file_name)
 		while (getline(&c,&thesize, f) != NULL)   // read character from file until EOF
 		{
 
-			printf("%s", c);
-			// printf("sizeof(intArr)=%u", sizeof(c)):
+               printf("%s", c);
+
+
             if(i != 0){
-			sscanf(&c, "%s[^,]| %lf[^,]| %lf", titles, latitude, longitude);
-			tabPoint[i].title = titles;
+
+
+			scanf(c, "%s[^,]| %lf[^,]| %lf[^/n]", &titles, &latitudes, &longitudes);
+			tabPoint[i-1]->title = titles;
 			printf("%s",titles);
 			/*tabPoint[i]->latitude = latitude;
 			tabPoint[i]->longitude = longitude;
@@ -171,6 +174,7 @@ Node* displayFile(const char *file_name)
 
 		}
 	}
+
 	fclose(f);
 	return tabPoint;
 }
