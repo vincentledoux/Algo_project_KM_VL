@@ -147,14 +147,14 @@ Node* displayFile(const char *file_name)
 	Node* tabPoint[MAX_SIZE];
 	char *c;
 	int i = 0;
-	char* titles = "";
+	char* titles = "a";
 	double latitudes = 0;
 	double longitudes = 0;
 	if (f != NULL)
 	{
 
 
-		while (getline(&c,&thesize, f) != NULL)   // read character from file until EOF
+		while (getline(&c,&thesize, f) != EOF)   // read character from file until EOF
 		{
 
                printf("%s", c);
@@ -163,9 +163,12 @@ Node* displayFile(const char *file_name)
             if(i != 0){
 
 
-			//sscanf(c, "%[^,],%lf[^,],%lf\n", titles, &latitudes, &longitudes);
-			char* line=parse(c);
-			tabPoint[i-1]->title = line[i-1];
+			sscanf(c, "%s[^,],%f[^,],%f\n", titles, &latitudes, &longitudes);
+
+
+
+			//parse(c);
+			//tabPoint[i-1]->title =""; //line[i-1];
 			printf("%s",titles);
 			/*tabPoint[i]->latitude = latitude;
 			tabPoint[i]->longitude = longitude;
@@ -180,7 +183,7 @@ Node* displayFile(const char *file_name)
 	return tabPoint;
 }
 
-char* parse(char* mystring)
+void parse(char* mystring)
 {
 char* str = mystring;
 char* pch;
@@ -194,7 +197,8 @@ char* pch;
     str[i]=pch;
     i++;
   }
-  return str;
+  //return str;
+  mystring=str;
 }
 
 // A utility to create the graph
