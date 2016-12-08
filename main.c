@@ -136,16 +136,16 @@ ssize_t getdelim(char **linep, size_t *n, int delim, FILE *fp){
     return !i && ch == EOF ? -1 : i;
 }
 ssize_t getline(char **linep, size_t *n, FILE *fp){
-    return getdelim(linep, n, '\n', fp);
+    return getdelim(linep, n, "\n", fp);
 }
 
 // A function to open and read the csv file
 Node* displayFile(const char *file_name)
 {
-    size_t thesize = 0;
-	FILE *f = fopen(file_name, "r");  // open the specified
+    size_t *thesize = 0;
+	FILE *f = fopen(file_name, "r+");  // open the specified
 	Node* tabPoint[MAX_SIZE];
-	char** c;
+	char *c;
 	int i = 0;
 	char title = "";
 	double latitude = 0;
@@ -154,7 +154,7 @@ Node* displayFile(const char *file_name)
 	{
 
 
-		while (getline(c,&thesize, &f) != NULL)   // read character from file until EOF
+		while (getline(&c,&thesize, f) != NULL)   // read character from file until EOF
 		{
 
 			printf("%s", c);
