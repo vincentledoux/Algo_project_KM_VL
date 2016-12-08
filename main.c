@@ -144,7 +144,8 @@ Node* displayFile(const char *file_name)
 {
     size_t *thesize = 0;
 	FILE *f = fopen(file_name, "r+");  // open the specified
-	Node* tabPoint[MAX_SIZE];
+	Node *tabPoint;
+	tabPoint=malloc(sizeof(Node)*MAX_SIZE);
 	char *c;
 	int i = 0;
 	char* titles = "a";
@@ -152,27 +153,23 @@ Node* displayFile(const char *file_name)
 	double longitudes = 0;
 	if (f != NULL)
 	{
-
-
 		while (getline(&c,&thesize, f) != EOF)   // read character from file until EOF
 		{
-
                printf("%s", c);
-
             char *str=c;
             if(i != 0){
+            int j = 0;
             char *pt;
             pt = strtok (str,",");
             while (pt != NULL) {
-               int a = atoi(pt);
-               printf("%d\n", a);
-               if(j==0)
-               titles=pt;
-               else if(j==1)
-               longitudes=pt;
-               else if(j==2)
-               latitudes=pt;
-
+               if(j==0){
+               titles=pt;}
+               else if(j==1){
+               longitudes=atof(pt);
+               printf("%f \n", longitudes);}
+               else if(j==2){
+               latitudes=atof(pt);
+            }
                pt = strtok (NULL, ",");
                if(j==2)
                {
@@ -182,27 +179,15 @@ Node* displayFile(const char *file_name)
                    nodeadd.numberOfTheCity=i;
                    nodeadd.visited=0;
                    nodeadd.title=titles;
-                   tabPoint[i-1]=nodeadd;
+                  tabPoint[i-1]=nodeadd;
                }
-
-    }
-
-			//sscanf(c, "%s[^,],%f[^,],%f\n", titles, &latitudes, &longitudes);
-
-
-
-			//parse(c);
-			//tabPoint[0]->title =""; //line[i-1];
-			//printf("%s",titles);
-			/*tabPoint[i]->latitude = latitude;
-			tabPoint[i]->longitude = longitude;
-			tabPoint[i]->numberOfTheCity;*/
+               j++;
+              }
             }
 			i=i+1;
 
 		}
 	}
-
 	fclose(f);
 	return tabPoint;
 }
@@ -359,7 +344,7 @@ int TSP(int at, int mask, int n)
 	for (i = 0; i < n; i++) {
 		if (weight[at][i] != -1 && (mask & (1 << i)) == 0) {
 	//		cost = dp(i, mask | (1 << i)) + weight[at][i]; //dp?
-			if (ans > cost) ans = cost;
+		//	if (ans > cost) ans = cost;
 		}
 	}
 
