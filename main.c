@@ -289,8 +289,8 @@ int Length(Node* node) {
 
 
 // A function to create every edges from the .csv file
-Graph EdgeandGraph(Node* nodeList, Graph x) {
-	Graph graph=x;
+Graph EdgeandGraph(Node* nodeList) {
+	Graph graph;
 	int i = 0;
 	int j = 0;
 
@@ -299,9 +299,9 @@ Graph EdgeandGraph(Node* nodeList, Graph x) {
 		for (i = 0; i<Length(nodeList); ++i) {
 			for (j = 0; j<Length(nodeList); ++i) {
 				edge = createEdge(nodeList[i], nodeList[j], createWeight(nodeList[i], nodeList[j]), graph);
+				graph.matrice[i][j]=edge;
 			}
 		}
-
 
 
 	}
@@ -355,7 +355,8 @@ int TSP(int at, int mask, int n)
 // Main function
 int main()
 {
-	displayFile("Cites.csv");
+	Node *n=displayFile("Cites.csv");
+	Graph graph=EdgeandGraph(n);
 	int vis[MAX_SIZE][MAX_SIZE]; // is_visited
 	int val[MAX_SIZE][MAX_SIZE]; // cost at particular state
 	int weight[MAX_SIZE][MAX_SIZE]; // given weight
