@@ -166,7 +166,23 @@ Node* displayFile(const char *file_name)
             while (pt != NULL) {
                int a = atoi(pt);
                printf("%d\n", a);
+               if(j==0)
+               titles=pt;
+               else if(j==1)
+               longitudes=pt;
+               else if(j==2)
+               latitudes=pt;
                pt = strtok (NULL, ",");
+               if(j==2)
+               {
+                   Node nodeadd;
+                   nodeadd.latitude=latitudes;
+                   nodeadd.longitude=longitudes;
+                   nodeadd.numberOfTheCity=i;
+                   nodeadd.visited=0;
+                   nodeadd.title=titles;
+               }
+
     }
 
 			//sscanf(c, "%s[^,],%f[^,],%f\n", titles, &latitudes, &longitudes);
