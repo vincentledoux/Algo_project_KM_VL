@@ -36,7 +36,7 @@ must contain the edge "PARIS —> SAINT GEORGES"
 
 // A structure to represent the Graph Nodes
 typedef struct Node {
-	char title;
+	char* title;
 	double latitude;
 	double longitude;
 	int numberOfTheCity;
@@ -144,10 +144,10 @@ Node* displayFile(const char *file_name)
 {
     size_t *thesize = 0;
 	FILE *f = fopen(file_name, "r+");  // open the specified
-	Node* tabPoint[MAX_SIZE];
+	Node tabPoint[MAX_SIZE];
 	char *c;
 	int i = 0;
-	char title = "";
+	char* titles = "";
 	double latitude = 0;
 	double longitude = 0;
 	if (f != NULL)
@@ -159,14 +159,15 @@ Node* displayFile(const char *file_name)
 
 			printf("%s", c);
 			// printf("sizeof(intArr)=%u", sizeof(c)):
-           /* if(i != 0){
-			sscanf(c, "%s[^;]| %lf[^;]| %lf", title, latitude, longitude);
-			tabPoint[i]->title = title;
-			tabPoint[i]->latitude = latitude;
+            if(i != 0){
+			sscanf(&c, "%s[^,]| %lf[^,]| %lf", titles, latitude, longitude);
+			tabPoint[i].title = titles;
+			printf("%s",titles);
+			/*tabPoint[i]->latitude = latitude;
 			tabPoint[i]->longitude = longitude;
-			tabPoint[i]->numberOfTheCity;
+			tabPoint[i]->numberOfTheCity;*/
             }
-			++i;*/
+			i=i+1;
 
 		}
 	}
@@ -238,7 +239,7 @@ void displayGraph(Graph graph) {
 	{
 		for (j = 0;j < MAX_SIZE;j++)
 		{
-			printf(" %s", graph.matrice[i][j].weight);
+			printf(" %lf", graph.matrice[i][j].weight);
 		}
 
 		printf("\n");
