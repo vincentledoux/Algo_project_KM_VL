@@ -22,7 +22,9 @@ must contain the edge "PARIS —> SAINT GEORGES"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#define _POSIX_C_SOURCE
+#include <errno.h>
+/*#define _GNU_SOURCE
+#define _POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700*/
 #define MAX_SIZE 60
 #define M_PI 6400
 #define degreesToRadians(Degrees) (Degrees * M_PI / 180.0)
@@ -102,12 +104,48 @@ Edge createEdge(Node node1, Node node2, double weight, Graph graph) {
 }
 
 
+ssize_t getdelim(char **linep, size_t *n, int delim, FILE *fp){
+    int ch;
+    size_t i = 0;
+    if(!linep || !n || !fp){
+        errno = EINVAL;
+        return -1;
+    }
+    if(*linep == NULL){
+        if(NULL==(*linep = malloc(*n=128))){
+            *n = 0;
+            errno = ENOMEM;
+            return -1;
+        }
+    }
+    while((ch = fgetc(fp)) != EOF){
+        if(i + 1 >= *n){
+            char *temp = realloc(*linep, *n + 128);
+            if(!temp){
+                errno = ENOMEM;
+                return -1;
+            }
+            *n += 128;
+            *linep = temp;
+        }
+        (*linep)[i++] = ch;
+        if(ch == delim)
+            break;
+    }
+    (*linep)[i] = '\0';
+    return !i && ch == EOF ? -1 : i;
+}
+ssize_t getline(char **linep, size_t *n, FILE *fp){
+    return getdelim(linep, n, '\n', fp);
+}
+
 // A function to open and read the csv file
 Node* displayFile(const char *file_name)
 {
+    size_t thesize = 0;
 	FILE *f = fopen(file_name, "r");  // open the specified
 	Node* tabPoint[MAX_SIZE];
-	char c[1000];
+	char** c;
 	int i = 0;
 	char title = "";
 	double latitude = 0;
@@ -116,18 +154,19 @@ Node* displayFile(const char *file_name)
 	{
 
 
-		while (getline(f, c))   // read character from file until EOF
+		while (getline(c,&thesize, &f) != NULL)   // read character from file until EOF
 		{
 
 			printf("%s", c);
 			// printf("sizeof(intArr)=%u", sizeof(c)):
-
-			sscanf(c, "%s[^;]|%lf[^;]|%lf", title, latitude, longitude);
+           /* if(i != 0){
+			sscanf(c, "%s[^;]| %lf[^;]| %lf", title, latitude, longitude);
 			tabPoint[i]->title = title;
 			tabPoint[i]->latitude = latitude;
 			tabPoint[i]->longitude = longitude;
 			tabPoint[i]->numberOfTheCity;
-			++i;
+            }
+			++i;*/
 
 		}
 	}
@@ -272,7 +311,7 @@ int TSP(int at, int mask, int n)
 	int i = 0;
 	for (i = 0; i < n; i++) {
 		if (weight[at][i] != -1 && (mask & (1 << i)) == 0) {
-			cost = dp(i, mask | (1 << i)) + weight[at][i]; //dp?
+	//		cost = dp(i, mask | (1 << i)) + weight[at][i]; //dp?
 			if (ans > cost) ans = cost;
 		}
 	}
@@ -288,9 +327,9 @@ int main()
 	int vis[MAX_SIZE][MAX_SIZE]; // is_visited
 	int val[MAX_SIZE][MAX_SIZE]; // cost at particular state
 	int weight[MAX_SIZE][MAX_SIZE]; // given weight
-	memset(vis, 0, sizeof(vis));
+	/*memset(vis, 0, sizeof(vis));
 	memset(weight, -1, sizeof(weight));
-	printf("Cost : %d\n", dp(0, 1));
+	printf("Cost : %d\n", dp(0, 1));-*/
 
 
 	return 0;

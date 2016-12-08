@@ -3,7 +3,9 @@
 	<stdio.h>
 	<stdlib.h>
 
-1480669012 source:c:\users\vincent\desktop\algo_project_km_vl\main.c
+1481202019 source:c:\users\vincent\desktop\algo_project_km_vl\main.c
 	<stdio.h>
 	<stdlib.h>
+	<math.h>
+	<errno.h>
 
