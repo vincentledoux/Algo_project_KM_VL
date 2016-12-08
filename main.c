@@ -163,8 +163,9 @@ Node* displayFile(const char *file_name)
             if(i != 0){
 
 
-			scanf(c, "%s[^,]| %lf[^,]| %lf[^/n]", &titles, &latitudes, &longitudes);
-			tabPoint[i-1]->title = titles;
+			//sscanf(c, "%[^,],%lf[^,],%lf\n", titles, &latitudes, &longitudes);
+			char* line=parse(c);
+			tabPoint[i-1]->title = line[i-1];
 			printf("%s",titles);
 			/*tabPoint[i]->latitude = latitude;
 			tabPoint[i]->longitude = longitude;
@@ -179,7 +180,22 @@ Node* displayFile(const char *file_name)
 	return tabPoint;
 }
 
-
+char* parse(char* mystring)
+{
+char* str = mystring;
+char* pch;
+ // printf ("Splitting string \"%s\" into tokens:\n",str);
+  pch = strtok (mystring,",");
+  int i=0;
+  while (pch != NULL)
+  {
+    //printf ("%s\n",pch);
+    pch = strtok (NULL, ",");
+    str[i]=pch;
+    i++;
+  }
+  return str;
+}
 
 // A utility to create the graph
 /*
