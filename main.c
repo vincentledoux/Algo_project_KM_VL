@@ -172,6 +172,7 @@ Node* displayFile(const char *file_name)
                longitudes=pt;
                else if(j==2)
                latitudes=pt;
+
                pt = strtok (NULL, ",");
                if(j==2)
                {
@@ -181,6 +182,7 @@ Node* displayFile(const char *file_name)
                    nodeadd.numberOfTheCity=i;
                    nodeadd.visited=0;
                    nodeadd.title=titles;
+                   tabPoint[i-1]=nodeadd;
                }
 
     }
