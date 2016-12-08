@@ -159,17 +159,23 @@ Node* displayFile(const char *file_name)
 
                printf("%s", c);
 
-
+            char *str=c;
             if(i != 0){
+            char *pt;
+            pt = strtok (str,",");
+            while (pt != NULL) {
+               int a = atoi(pt);
+               printf("%d\n", a);
+               pt = strtok (NULL, ",");
+    }
 
-
-			sscanf(c, "%s[^,],%f[^,],%f\n", titles, &latitudes, &longitudes);
+			//sscanf(c, "%s[^,],%f[^,],%f\n", titles, &latitudes, &longitudes);
 
 
 
 			//parse(c);
-			//tabPoint[i-1]->title =""; //line[i-1];
-			printf("%s",titles);
+			//tabPoint[0]->title =""; //line[i-1];
+			//printf("%s",titles);
 			/*tabPoint[i]->latitude = latitude;
 			tabPoint[i]->longitude = longitude;
 			tabPoint[i]->numberOfTheCity;*/
@@ -182,24 +188,22 @@ Node* displayFile(const char *file_name)
 	fclose(f);
 	return tabPoint;
 }
-
-void parse(char* mystring)
+/*
+char* parse(char* mystring)
 {
-char* str = mystring;
-char* pch;
- // printf ("Splitting string \"%s\" into tokens:\n",str);
-  pch = strtok (mystring,",");
-  int i=0;
-  while (pch != NULL)
-  {
-    //printf ("%s\n",pch);
-    pch = strtok (NULL, ",");
-    str[i]=pch;
-    i++;
-  }
-  //return str;
-  mystring=str;
-}
+char *str[3];
+    char *pt;
+    pt = strtok (mystring,",");
+    int i=0;
+    while (pt != NULL) {
+        int a = atoi(pt);
+        printf("%d\n", a);
+        str[i]=pt;
+        pt = strtok (NULL, ",");
+        i++;
+    }
+    return str;
+}*/
 
 // A utility to create the graph
 /*
