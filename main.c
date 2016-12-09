@@ -179,7 +179,7 @@ Node* displayFile(const char *file_name)
                    nodeadd.numberOfTheCity=i;
                    nodeadd.visited=0;
                    nodeadd.title=titles;
-                  tabPoint[i-1]=nodeadd;
+                   tabPoint[i-1]=nodeadd;
                }
                j++;
               }
@@ -191,73 +191,6 @@ Node* displayFile(const char *file_name)
 	fclose(f);
 	return tabPoint;
 }
-/*
-char* parse(char* mystring)
-{
-char *str[3];
-    char *pt;
-    pt = strtok (mystring,",");
-    int i=0;
-    while (pt != NULL) {
-        int a = atoi(pt);
-        printf("%d\n", a);
-        str[i]=pt;
-        pt = strtok (NULL, ",");
-        i++;
-    }
-    return str;
-}*/
-
-// A utility to create the graph
-/*
-Graph createGraph(int n) {
-	Graph graph;
-	graph.edgeList = malloc(sizeof(Edge)*n);
-	return graph;
-}*/
-
-
-// A utility to add an edge to the graph
-
-Graph addEdge(Node* nodeList, Graph graph) {
-
-	int i = 0;
-	int j = 0;
-	for (i = 0;i < MAX_SIZE; i++)
-	{
-		for (j = 0; j < MAX_SIZE; j++)
-		{
-
-		}
-
-		/*
-		if (graph.edgeList == NULL)
-		{
-
-			graph.edgeList[0] = graph.current;
-			graph.current.node1 = nodeList[i];
-			graph.current.node2 = nodeList[i + 1];
-			graph.current.weight = createWeight(nodeList[i], nodeList[i + 1]);
-
-
-		}
-		else {
-			while (graph.edgeList != NULL)
-			{
-				//aller au suivant
-
-			}
-			graph.current.node1 = nodeList[i];
-			graph.current.node2 = nodeList[i + 1];
-			graph.current.weight = createWeight(nodeList[i], nodeList[i + 1]);
-		}
-		++i;*/
-	}
-	return graph;
-	}
-
-
-
 
 
 // A function to display the graph in the console
@@ -270,7 +203,7 @@ void displayGraph(Graph graph) {
 	{
 		for (j = 0;j < MAX_SIZE;j++)
 		{
-			printf(" %lf", graph.matrice[i][j].weight);
+			printf(" %f", graph.matrice[i][j].weight);
 		}
 
 		printf("\n");
@@ -357,6 +290,7 @@ int main()
 {
 	Node *n=displayFile("Cites.csv");
 	Graph graph=EdgeandGraph(n);
+	displayGraph(graph);
 	int vis[MAX_SIZE][MAX_SIZE]; // is_visited
 	int val[MAX_SIZE][MAX_SIZE]; // cost at particular state
 	int weight[MAX_SIZE][MAX_SIZE]; // given weight
