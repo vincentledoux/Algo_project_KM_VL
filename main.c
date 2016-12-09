@@ -1,19 +1,13 @@
 /* A C Program to solve the traveling salesman problem
-
 Program :
-
 Read data from the file.
 Load it in data structure representing the graph
-
-
 1. Find the maximum length path of the trip of traveling salesman problem starting
 from "PARIS" and visits each city exactly once and returning to "PARIS.
 (a) using an exact method to find an exact solution
 (b) using Lin Kernighan heuristic
 (c) using Local search heuristic.
-
 2. Estimate the complexity of those algorithms.
-
 3. Implement an algorithm to find the minimum spanning tree. This spanning tree
 must contain the edge "PARIS —> SAINT GEORGES"
 */
@@ -23,6 +17,7 @@ must contain the edge "PARIS —> SAINT GEORGES"
 #include <stdlib.h>
 #include <math.h>
 #include <errno.h>
+#include <conio.h>
 /*#define _GNU_SOURCE
 #define _POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700*/
 #define MAX_SIZE 60
@@ -65,16 +60,12 @@ typedef struct Graph {
 
 
 /*
-
 A function to create the nodes weight where
 Omega is latitude, lambda is longitude, R is earth radius (mean radius = 6,371km);
 Coordinates are in degrees and are converted to radians in order for this formula to work
-
 Using the Pythagorean theorem, the program finds distances between nodes to extrapolate
 the edges weight for the graph
-
 Formula
-
 */
 
 double createWeight(Node node1, Node node2)
@@ -95,7 +86,7 @@ double createWeight(Node node1, Node node2)
 
 
 // A utility to create an edge for two nodes into the graph
-Edge createEdge(Node node1, Node node2, double weight, Graph graph) {
+Edge createEdge(Node node1, Node node2, double weight) {
 	Edge edge;
 	edge.weight = weight;
 	edge.node1 = node1;
@@ -193,6 +184,8 @@ Node* displayFile(const char *file_name)
 }
 
 
+
+
 // A function to display the graph in the console
 void displayGraph(Graph graph) {
 	int i = 0;
@@ -224,20 +217,23 @@ int Length(Node* node) {
 // A function to create every edges from the .csv file
 Graph EdgeandGraph(Node* nodeList) {
 	Graph graph;
+
 	int i = 0;
 	int j = 0;
 
-	Edge edge;
-	while (nodeList != NULL) {
+
+	//while (nodeList != NULL) {
 		for (i = 0; i<Length(nodeList); ++i) {
 			for (j = 0; j<Length(nodeList); ++i) {
-				edge = createEdge(nodeList[i], nodeList[j], createWeight(nodeList[i], nodeList[j]), graph);
+                //printf("%d",j);
+				Edge edge = createEdge(nodeList[i], nodeList[j], createWeight(nodeList[i], nodeList[j]));
 				graph.matrice[i][j]=edge;
 			}
+			//printf("%d",i);
 		}
 
 
-	}
+	//}
 	return graph;
 
 
@@ -285,10 +281,85 @@ int TSP(int at, int mask, int n)
 }
 
 
+
+
+
 // Main function
 int main()
 {
-	Node *n=displayFile("Cites.csv");
+
+
+menu();
+
+
+
+	return 0;
+}
+
+int menu(void)
+{
+    int fin;
+
+
+
+   fin = 0;
+   while(!fin)
+   {
+      int c;
+
+      /* menu */
+      printf("1.Display cities list and graph\n"
+             "2.TSP 1\n"
+             "3.TSP 2\n"
+             "4.TSP 3\n"
+             "5.Quit\n");
+
+      c = getchar();
+
+
+      if(c != '\n' && c != EOF)
+      {
+         int d;
+         while((d = getchar()) != '\n' && d != EOF);
+      }
+
+      switch(c)
+      {
+         case '1':
+            printf("Display cities list and graph\n");
+            choice1();
+            //system('PAUSE');
+
+            break;
+
+         case '2':
+            printf("TSP 1\n");
+            break;
+
+         case '3':
+            printf("TSP 2\n");
+            break;
+
+         case '4':
+            printf("TSP 3\n");
+            break;
+
+         case '5':
+            fin = 1;
+            break;
+
+
+         default:
+            printf("Not a valid choice\n");
+      }
+   }
+
+//choice1();
+ system("PAUSE");
+}
+int choice1(void)
+{
+    	Node *n=displayFile("Cites.csv");
 	Graph graph=EdgeandGraph(n);
 	displayGraph(graph);
 	int vis[MAX_SIZE][MAX_SIZE]; // is_visited
@@ -297,8 +368,4 @@ int main()
 	/*memset(vis, 0, sizeof(vis));
 	memset(weight, -1, sizeof(weight));
 	printf("Cost : %d\n", dp(0, 1));-*/
-
-
-	return 0;
 }
-
