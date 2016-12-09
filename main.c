@@ -18,6 +18,7 @@ must contain the edge "PARIS —> SAINT GEORGES"
 #include <math.h>
 #include <errno.h>
 #include <conio.h>
+#include <windows.h>
 /*#define _GNU_SOURCE
 #define _POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700*/
 #define MAX_SIZE 60
@@ -27,6 +28,7 @@ must contain the edge "PARIS —> SAINT GEORGES"
 
 
 //using namespace std;
+
 
 
 // A structure to represent the Graph Nodes
@@ -171,6 +173,7 @@ Node* displayFile(const char *file_name)
                    nodeadd.visited=0;
                    nodeadd.title=titles;
                    tabPoint[i-1]=nodeadd;
+                   printf("%f\n",tabPoint[i-1].latitude);
                }
                j++;
               }
@@ -190,12 +193,13 @@ Node* displayFile(const char *file_name)
 void displayGraph(Graph graph) {
 	int i = 0;
 	int j = 0;
-
+    printf("%f \n",graph.matrice[2][1].weight);
 	//for in the matrix
 	for(i=0; i<MAX_SIZE; ++i)
 	{
 		for (j = 0;j < MAX_SIZE;j++)
 		{
+
 			printf(" %f", graph.matrice[i][j].weight);
 		}
 
@@ -217,23 +221,21 @@ int Length(Node* node) {
 // A function to create every edges from the .csv file
 Graph EdgeandGraph(Node* nodeList) {
 	Graph graph;
-
 	int i = 0;
 	int j = 0;
 
-
-	//while (nodeList != NULL) {
-		for (i = 0; i<Length(nodeList); ++i) {
-			for (j = 0; j<Length(nodeList); ++i) {
-                //printf("%d",j);
-				Edge edge = createEdge(nodeList[i], nodeList[j], createWeight(nodeList[i], nodeList[j]));
-				graph.matrice[i][j]=edge;
+		for (i = 0; i<MAX_SIZE; ++i) {
+			for (j = 0; j<MAX_SIZE; ++j) {
+                    //printf("%f \n", nodeList[j].latitude);
+				Edge* edge =(Edge*)malloc(sizeof(Edge));
+				*edge = createEdge(nodeList[i], nodeList[j], createWeight(nodeList[i], nodeList[j]));
+                 printf("");
+				//printf("%f \n", edge->node1.latitude);
+				//printf("%f \n", nodeList[j].latitude);
+				graph.matrice[i][j] = *edge;
 			}
-			//printf("%d",i);
 		}
 
-
-	//}
 	return graph;
 
 
@@ -296,6 +298,7 @@ menu();
 	return 0;
 }
 
+
 int menu(void)
 {
     int fin;
@@ -308,12 +311,18 @@ int menu(void)
       int c;
 
       /* menu */
-      printf("1.Display cities list and graph\n"
-             "2.TSP 1\n"
-             "3.TSP 2\n"
-             "4.TSP 3\n"
-             "5.Quit\n");
 
+
+      SetColor(35);
+
+      printf("|================================================|\n"
+             "|1.Display cities list and graph                 |\n"
+             "|2.TSP 1 : exact method to find an exact solution|\n"
+             "|3.TSP 2 : Lin-Kernighan heuristic               |\n"
+             "|4.TSP 3 : Local search heuristic                |\n"
+             "|5.Quit                                          |\n"
+             "|================================================|\n\n");
+   getch();
       c = getchar();
 
 
@@ -329,19 +338,22 @@ int menu(void)
             printf("Display cities list and graph\n");
             choice1();
             //system('PAUSE');
-
+         // clrscr();
             break;
 
          case '2':
             printf("TSP 1\n");
+            choice2();
             break;
 
          case '3':
             printf("TSP 2\n");
+            choice3();
             break;
 
          case '4':
             printf("TSP 3\n");
+            choice4();
             break;
 
          case '5':
@@ -357,9 +369,12 @@ int menu(void)
 //choice1();
  system("PAUSE");
 }
+
+
 int choice1(void)
 {
     	Node *n=displayFile("Cites.csv");
+    	printf("%f \n",n[2].latitude);
 	Graph graph=EdgeandGraph(n);
 	displayGraph(graph);
 	int vis[MAX_SIZE][MAX_SIZE]; // is_visited
@@ -368,4 +383,49 @@ int choice1(void)
 	/*memset(vis, 0, sizeof(vis));
 	memset(weight, -1, sizeof(weight));
 	printf("Cost : %d\n", dp(0, 1));-*/
+}
+
+
+
+int choice2()
+{
+
+}
+
+int choice3()
+{
+
+
+}
+
+int choice4()
+{
+
+}
+//Clear screen function if need be
+void clrscr()
+{
+    system("@cls||clear");
+}
+
+
+
+
+// This world needs a little bit of color sometimes
+void SetColor(int ForgC)
+{
+     WORD wColor;
+
+
+     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+     CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+
+     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+     {
+
+          wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+          SetConsoleTextAttribute(hStdOut, wColor);
+     }
+     return;
 }
